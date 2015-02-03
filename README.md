@@ -25,27 +25,27 @@ If you want display help, just use the "-h" flag :
 
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -h
-USBTracker v1.0.0
+USBTracker alpha
 2015 - Alain Sullam
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
 You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some
 log files artifacts.
 
-usage: usbtracker.py [-h] [-u | -uu] [-nh] [-e] [-x] [-s]
+usage: usbtracker.py [-h] [-u | -uu] [-nh] [-df] [-x]
 
 optional arguments:
   -h, --help            show this help message and exit
   -u, --usbstor         Dump USB artifacts from USBSTOR registry
   -uu, --usbstor-verbose
-                        Dump USB detailed artifacts from USBSTOR registry
+                        Dump USB detailed artifacts from USBSTOR registry.
   -nh, --no-hardwareid  Hide HardwareID value during a USBSTOR detailed
-                        artifacts dump in registry
-  -e, --event-log       Dump USB artifacts and events from event log
-  -x, --raw-xml-event   Display event results in raw xml (with -e option
+                        artifacts registry dump.
+  -df, --driver-frameworks
+                        Dump USB artifacts and events from the Windows
+                        DriverFrameworks Usermode log.
+  -x, --raw-xml-event   Display event results in raw xml (with -df option
                         only).
-  -s, --setupapi        Dump USB artifacts from the setupapi.dev.log (Windows
-                        Vista and later)
 ```
 
 ## List know USB storage devices ##
@@ -130,4 +130,80 @@ Disk&Ven_Generic&Prod_STORAGE_DEVICE&Rev_0272
 
 ...
 
+```
+
+## Dumping events and artifacts from log files : ##
+
+To dump all USB related events (currently only EventID 1003) from the *Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx* log file, use the "-df" flag.
+
+```
+PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -df
+USBTracker alpha
+2015 - Alain Sullam
+
+USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
+You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some
+log files artifacts.
+
+USB related event(s) found in the event log :
+=============================================
+
+UTC Time : 2015-01-18 20:31:34.013599
+EventID : 1003 | Computer : 37L4247F27-25 | User SID : S-1-5-18 | User : systemprofile
+WPDBUSENUMROOT.UMB.2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C
+8C0C5DB00B9&0#
+
+UTC Time : 2015-01-18 20:31:34.481600
+EventID : 1003 | Computer : 37L4247F27-25 | User SID : S-1-5-18 | User : systemprofile
+WPDBUSENUMROOT.UMB.2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C
+8C0C5DB00B9&0#
+
+UTC Time : 2015-01-18 20:31:57.788000
+EventID : 1003 | Computer : 37L4247F27-25 | User SID : S-1-5-18 | User : systemprofile
+WPDBUSENUMROOT.UMB.2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C
+8C0C5DB00B9&0#
+
+...
+```
+
+To dump the same events in XML format, just add the "-x" flag :
+
+```
+PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -df -x
+USBTracker alpha
+2015 - Alain Sullam
+
+USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
+You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some
+log files artifacts.
+
+USB related event(s) found in the event log :
+=============================================
+
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event"><System><Provider Name="Microsoft-Windows-DriverFra
+meworks-UserMode" Guid="2e35aaeb-857f-4beb-a418-2e6c0e54d988"></Provider>
+<EventID Qualifiers="">1003</EventID>
+<Version>1</Version>
+<Level>4</Level>
+<Task>17</Task>
+<Opcode>1</Opcode>
+<Keywords>0x8000000000000000</Keywords>
+<TimeCreated SystemTime="2015-01-18 20:31:34.013599"></TimeCreated>
+<EventRecordID>2</EventRecordID>
+<Correlation ActivityID="" RelatedActivityID=""></Correlation>
+<Execution ProcessID="836" ThreadID="1488"></Execution>
+<Channel>Microsoft-Windows-DriverFrameworks-UserMode/Operational</Channel>
+<Computer>37L4247F27-25</Computer>
+<Security UserID="S-1-5-18"></Security>
+</System>
+<UserData><UMDFDriverManagerHostCreateStart lifetime="8c076f4d-6405-4414-a829-ee44a94e3893" xmlns:auto-ns2="http://schem
+as.microsoft.com/win/2004/08/events" xmlns="http://www.microsoft.com/DriverFrameworks/UserMode/Event"><HostGuid>{193a182
+0-d9ac-4997-8c55-be817523f6aa}</HostGuid>
+<DeviceInstanceId>WPDBUSENUMROOT.UMB.2&amp;37C186B&amp;0&amp;STORAGE#VOLUME#_??_USBSTOR#DISK&amp;VEN_KINGSTON&amp;PROD_D
+ATATRAVELER_2.0&amp;REV_1.00#0019B931D970C8C0C5DB00B9&amp;0#</DeviceInstanceId>
+</UMDFDriverManagerHostCreateStart>
+</UserData>
+</Event>
+
+...
 ```

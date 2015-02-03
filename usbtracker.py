@@ -7,7 +7,10 @@ import contextlib
 
 from Evtx.Evtx import FileHeader
 from Evtx.Views import evtx_file_xml_view
+from Evtx.Views import evtx_template_readable_view
 from utilities import utils
+from evt.event import Event
+from evt.eventxml import EventXML
 
 import xml.etree.ElementTree as ET
 
@@ -18,16 +21,19 @@ def main():
     parser = argparse.ArgumentParser()
     group_reg = parser.add_mutually_exclusive_group()
     group_reg.add_argument("-u", "--usbstor", help="Dump USB artifacts from USBSTOR registry", action="store_true")
-    group_reg.add_argument("-uu", "--usbstor-verbose", help="Dump USB detailed artifacts from USBSTOR registry", action="store_true")
-    parser.add_argument("-nh", "--no-hardwareid", help="Hide HardwareID value during a USBSTOR detailed artifacts dump in registry", action="store_true")
+    group_reg.add_argument("-uu", "--usbstor-verbose", help="Dump USB detailed artifacts from USBSTOR registry.",
+                           action="store_true")
+    parser.add_argument("-nh", "--no-hardwareid", help="Hide HardwareID value during a USBSTOR detailed artifacts "
+                                                       "registry dump.", action="store_true")
 
     group_log = parser.add_mutually_exclusive_group()
-    group_log.add_argument("-e", "--event-log", help="Dump USB artifacts and events from event log", action="store_true")
-    parser.add_argument("-x", "--raw-xml-event", help="Display event results in raw xml (with -e option only).", action="store_true")
-    parser.add_argument("-s", "--setupapi", help="Dump USB artifacts from the setupapi.dev.log (Windows Vista and later)", action="store_true")
+    group_log.add_argument("-df", "--driver-frameworks", help="Dump USB artifacts and events from the Windows "
+                                                              "DriverFrameworks Usermode log.", action="store_true")
+    parser.add_argument("-x", "--raw-xml-event", help="Display event results in raw xml (with -df option only).",
+                        action="store_true")
+    # parser.add_argument("-s", "--setupapi", help="Dump USB artifacts from the setupapi.dev.log (Windows Vista "
+    #                                             "and later)", action="store_true")
 
-    # parser.add_argument("square", type=int, help="display a square of a given number")
-    # parser.add_argument("-c", "--check", help="Check the source code integrity", choices=["test1","test2","test3"])
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
@@ -42,18 +48,20 @@ def main():
         else:
             dump_extra_registry(False)
 
-    if args.event_log:
-        dump_event_log(r'C:\Windows\SysNative\winevt\Logs\Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx', args.raw_xml_event)
+    if args.driver_frameworks:
+        dump_driverframeworks_log(
+            r'C:\Windows\SysNative\winevt\Logs\Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx',
+            args.raw_xml_event)
 
 
 def usage():
 
-    print("USBTracker v1.0.0")
+    print("USBTracker alpha")
     print("2015 - Alain Sullam\n")
     print("USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and "
           "later).")
-    print("You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some "
-          "log files artifacts.\n ")
+    print("You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able "
+          "to dump some log files artifacts.\n ")
 
 
 def dump_registry():
@@ -78,7 +86,6 @@ def dump_extra_registry(hide_hardwareid):
     print("=====================================\n")
 
     query = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'SYSTEM\CurrentControlSet\Enum\USBSTOR', 0)
-    # subkey = ""
     i = 0
 
     try:
@@ -86,7 +93,8 @@ def dump_extra_registry(hide_hardwareid):
             key = _winreg.EnumKey(query, i)
             print key + "\n"
             i += 1
-            query2 = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'SYSTEM\CurrentControlSet\Enum\USBSTOR' + "\\" + key, 0)
+            query2 = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'SYSTEM\CurrentControlSet\Enum\USBSTOR' + "\\" +
+                                     key, 0)
             j = 0
 
             try:
@@ -94,7 +102,8 @@ def dump_extra_registry(hide_hardwareid):
                     subkey = _winreg.EnumKey(query2, j)
                     print("        " + "Serial : " + subkey + "\n")
                     j += 1
-                    query3 = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'SYSTEM\CurrentControlSet\Enum\USBSTOR' + "\\" + key + "\\" + subkey, 0)
+                    query3 = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'SYSTEM\CurrentControlSet\Enum\USBSTOR' +
+                                             "\\" + key + "\\" + subkey, 0)
                     k = 0
                     try:
                         while True:
@@ -117,7 +126,9 @@ def dump_extra_registry(hide_hardwareid):
         pass
 
 
-def dump_event_log(event_file, xml_format):
+def dump_driverframeworks_log(event_file, xml_format):
+
+    events_list = list()
 
     if os.path.isfile(event_file) is False:
         print("The log file : " + event_file + " is not found.")
@@ -134,10 +145,28 @@ def dump_event_log(event_file, xml_format):
                 root = ET.fromstring(xml)
                 if root[0][1].text == '1003':
                     if xml_format:
-                        print xml
+                        evt = EventXML(root[0][7].get('SystemTime'), xml)
+                        events_list.append(evt)
                     else:
-                        print root[0][7].get('SystemTime') + " EventID : " + root[0][1].text + " Computer : " + root[0][12].text + " User SID : " + root[0][13].get('UserID') + " User : " + utils.find_username_by_sid(root[0][13].get('UserID'))
-                        print root[1][0][1].text + "\n"
+                        evt = Event(root[0][7].get('SystemTime'), root[0][1].text, root[0][12].text,
+                                    root[0][13].get('UserID'),
+                                    utils.find_username_by_sid(root[0][13].get('UserID')), root[1][0][1].text)
+                        events_list.append(evt)
+
+            events_list.sort(key=lambda x: x.datetime)
+
+            if xml_format:
+                for eventxml in events_list:
+                    print eventxml.xmlstring
+
+            else:
+                for event in events_list:
+                    print "UTC Time : " + event.datetime
+                    print "EventID : " + event.eventid + " | Computer : " + event.computername + \
+                          " | User SID : " + event.usersid + " | User : " + event.user
+                    print event.deviceinstanceid + "\n"
+
+            print str(len(events_list)) + " event(s) found."
 
 
 if __name__ == "__main__":
