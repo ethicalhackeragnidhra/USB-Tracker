@@ -54,7 +54,7 @@ If you want to list all USB storage devices known by Windows, use the "-u" flag 
 
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -u
-USBTracker v1.0.0
+USBTracker alpha
 2015 - Alain Sullam
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
@@ -77,7 +77,7 @@ or the "-uu" flag if you want to get a detailed list :
 
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -uu
-USBTracker v1.0.0
+USBTracker alpha
 2015 - Alain Sullam
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
