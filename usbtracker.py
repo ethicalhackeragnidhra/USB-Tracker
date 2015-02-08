@@ -143,14 +143,22 @@ def dump_driverframeworks_log(event_file, xml_format):
 
             for xml, record in evtx_file_xml_view(fh):
                 root = ET.fromstring(xml)
-                if root[0][1].text == '1003':
+
+                if root[0][1].text == '2003' or root[0][1].text == '2004' or root[0][1].text == '2005' or \
+                        root[0][1].text == '2010' or root[0][1].text == '2100' or root[0][1].text == '2102' or \
+                        root[0][1].text == '2105':
+
                     if xml_format:
                         evt = EventXML(root[0][7].get('SystemTime'), xml)
                         events_list.append(evt)
                     else:
-                        evt = Event(root[0][7].get('SystemTime'), root[0][1].text, root[0][12].text,
+                        evt = Event(root[0][7].get('SystemTime'),
+                                    root[0][1].text, root[0][12].text,
                                     root[0][13].get('UserID'),
-                                    utils.find_username_by_sid(root[0][13].get('UserID')), root[1][0][1].text)
+                                    utils.find_username_by_sid(root[0][13].get('UserID')),
+                                    str.split(str(root[1][0].tag), "}")[1],
+                                    str(root[1][0].get('lifetime')),
+                                    str(root[1][0].get('instance')))
                         events_list.append(evt)
 
             events_list.sort(key=lambda x: x.datetime)
@@ -162,9 +170,11 @@ def dump_driverframeworks_log(event_file, xml_format):
             else:
                 for event in events_list:
                     print "UTC Time : " + event.datetime
-                    print "EventID : " + event.eventid + " | Computer : " + event.computername + \
-                          " | User SID : " + event.usersid + " | User : " + event.user
-                    print event.deviceinstanceid + "\n"
+                    print "EventID : " + event.event_id + " | Description : " + event.description + \
+                          " | Computer : " + event.computer_name + " | User SID : " + event.user_sid + \
+                          " | User : " + event.user
+                    print "Lifetime : " + event.lifetime
+                    print event.device_instance_id + "\n"
 
             print str(len(events_list)) + " event(s) found."
 

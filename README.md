@@ -134,7 +134,7 @@ Disk&Ven_Generic&Prod_STORAGE_DEVICE&Rev_0272
 
 ## Dumping events and artifacts from log files : ##
 
-To dump all USB related events (currently only EventID 1003) from the *Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx* log file, use the "-df" flag.
+To dump all USB related events (currently EventID 2003, 2004, 2005, 2010, 2100, 2102 & 2105) from the *Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx* log file, use the "-df" flag.
 
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -df
@@ -148,20 +148,20 @@ log files artifacts.
 USB related event(s) found in the event log :
 =============================================
 
-UTC Time : 2015-01-18 20:31:34.013599
-EventID : 1003 | Computer : 37L4247F27-25 | User SID : S-1-5-18 | User : systemprofile
-WPDBUSENUMROOT.UMB.2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C
-8C0C5DB00B9&0#
+UTC Time : 2015-01-18 20:31:34.138399
+EventID : 2003 | Description : UMDFHostDeviceArrivalBegin | Computer : 37L4247F27-25 | User SID : S-1-5-19 | User : LocalService
+Lifetime : 8c076f4d-6405-4414-a829-ee44a94e3893
+WPDBUSENUMROOT\UMB\2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C8C0C5DB00B9&0#
 
-UTC Time : 2015-01-18 20:31:34.481600
-EventID : 1003 | Computer : 37L4247F27-25 | User SID : S-1-5-18 | User : systemprofile
-WPDBUSENUMROOT.UMB.2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C
-8C0C5DB00B9&0#
+UTC Time : 2015-01-18 20:31:34.138399
+EventID : 2010 | Description : UMDFHostDeviceArrivalEnd | Computer : 37L4247F27-25 | User SID : S-1-5-19 | User : LocalService
+Lifetime : 8c076f4d-6405-4414-a829-ee44a94e3893
+WPDBUSENUMROOT\UMB\2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C8C0C5DB00B9&0#
 
-UTC Time : 2015-01-18 20:31:57.788000
-EventID : 1003 | Computer : 37L4247F27-25 | User SID : S-1-5-18 | User : systemprofile
-WPDBUSENUMROOT.UMB.2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C
-8C0C5DB00B9&0#
+UTC Time : 2015-01-18 20:31:34.138399
+EventID : 2004 | Description : UMDFHostAddDeviceBegin | Computer : 37L4247F27-25 | User SID : S-1-5-19 | User : LocalService
+Lifetime : 8c076f4d-6405-4414-a829-ee44a94e3893
+WPDBUSENUMROOT\UMB\2&37C186B&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C8C0C5DB00B9&0#
 
 ...
 ```
