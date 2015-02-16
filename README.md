@@ -6,7 +6,7 @@ USBTracker is a quick & dirty coded incident response and forensics Python scrip
 
 ## Special recommandations ##
 
-USBTracker read some protected log files and needs to be run with administrator permissions. The most simple way to run USBTracker is to launch a CMD or Powershell console with a right click **"run as administrator"**, then execute the script inside it.
+USBTracker read some protected log files and needs to be run with administrator permissions. The most simple way to run USBTracker is to launch a CMD or Powershell console with a right click **"run as administrator"**, then execute the script / exe inside it.
 
 ## Executable version ##
 
