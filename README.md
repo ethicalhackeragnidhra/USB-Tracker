@@ -132,7 +132,7 @@ Disk&Ven_Generic&Prod_STORAGE_DEVICE&Rev_0272
 
 ```
 
-## Dumping events and artifacts from log files : ##
+## Dumping events and artifacts from *Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx* log file : ##
 
 To dump all USB related events (currently EventID 2003, 2004, 2005, 2010, 2100, 2102 & 2105) from the *Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx* log file, use the "-df" flag.
 
@@ -204,6 +204,51 @@ ATATRAVELER_2.0&amp;REV_1.00#0019B931D970C8C0C5DB00B9&amp;0#</DeviceInstanceId>
 </UMDFDriverManagerHostCreateStart>
 </UserData>
 </Event>
+
+...
+```
+
+## Dumping events and artifacts from *setupapi.dev.log* log file : ##
+
+To dump all USB devices installation events (generally first use of devices) from the *setupapi.dev.log* log file, use the "-sa" flag.
+
+```
+PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -sa
+USBTracker alpha
+2015 - Alain Sullam
+
+USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
+You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some log files artifacts.
+
+>>>  [Setup online Device Install (Hardware initiated) - usb\vid_0930&pid_6544\0019b931d970c8c0c5db00b9]
+>>>  Section start 2015/01/18 21:31:02.314
+
+>>>  [Setup online Device Install (Hardware initiated) - storage\volume\_??_usbstor#disk&ven_kingston&prod_datatraveler_2.0&rev_1.00#0019b931d970c8c0c5db00b9&0#{53f56307-b6bf-11d0-94f2-00a0c91efb8b}]
+>>>  Section start 2015/01/18 21:31:28.241
+
+>>>  [Setup online Device Install (Hardware initiated) - WpdBusEnumRoot\UMB\2&37c186b&0&STORAGE#VOLUME#_??_USBSTOR#DISK&VEN_KINGSTON&PROD_DATATRAVELER_2.0&REV_1.00#0019B931D970C8C0C5DB00B9&0#]
+>>>  Section start 2015/01/18 21:31:30.956
+
+>>>  [Setup online Device Install (Hardware initiated) - usb\root_hub20\4&56dcbd&0]
+>>>  Section start 2015/01/18 21:31:59.457
+
+>>>  [Setup online Device Install (Hardware initiated) - usb\root_hub\4&38d808bf&0]
+>>>  Section start 2015/01/18 21:32:28.925
+
+>>>  [Setup online Device Install (Hardware initiated) - usb\root_hub\4&fee3d1d&0]
+>>>  Section start 2015/01/18 21:32:31.593
+
+>>>  [Setup online Device Install (Hardware initiated) - usb\root_hub20\4&3a831ac0&0]
+>>>  Section start 2015/01/18 21:32:32.825
+
+>>>  [Setup online Device Install (Hardware initiated) - usb\vid_0458&pid_0137\5&1d8fb94c&0&3]
+>>>  Section start 2015/01/18 21:32:36.866
+
+>>>  [Setup online Device Install (Hardware initiated) - usb\vid_05ac&pid_8242\5&1d8fb94c&0&5]
+>>>  Section start 2015/01/18 21:32:47.037
+
+>>>  [Setup online Device Install (Hardware initiated) - usb\vid_05ac&pid_8502\8t9a9e8d577k3l00]
+>>>  Section start 2015/01/18 21:32:48.160
 
 ...
 ```

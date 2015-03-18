@@ -29,10 +29,11 @@ def main():
     group_log = parser.add_mutually_exclusive_group()
     group_log.add_argument("-df", "--driver-frameworks", help="Dump USB artifacts and events from the Windows "
                                                               "DriverFrameworks Usermode log.", action="store_true")
-    parser.add_argument("-x", "--raw-xml-event", help="Display event results in raw xml (with -df option only).",
+    group_log.add_argument("-x", "--raw-xml-event", help="Display event results in raw xml (with -df option only).",
                         action="store_true")
-    # parser.add_argument("-s", "--setupapi", help="Dump USB artifacts from the setupapi.dev.log (Windows Vista "
-    #                                             "and later)", action="store_true")
+
+    parser.add_argument("-sa", "--setupapi-dev", help="Dump all USB devices installation (first use) artifacts from the"
+                                                      " setupapi.dev.log file. (Vista and later)", action="store_true")
 
     args = parser.parse_args()
 
@@ -52,6 +53,9 @@ def main():
         dump_driverframeworks_log(
             r'C:\Windows\SysNative\winevt\Logs\Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx',
             args.raw_xml_event)
+
+    if args.setupapi_dev:
+        dump_setupapi_log(r'C:\Windows\inf\setupapi.dev.log')
 
 
 def usage():
@@ -177,6 +181,31 @@ def dump_driverframeworks_log(event_file, xml_format):
                     print event.device_instance_id + "\n"
 
             print str(len(events_list)) + " event(s) found."
+
+
+def dump_setupapi_log(event_file):
+
+    if os.path.isfile(event_file) is False:
+        print("The log file : " + event_file + " is not found.")
+        return
+
+    events_list = list()
+
+    toggle = False
+
+    with open(event_file, "rb") as fp:
+        lines = []
+        for line in fp:
+            if ">>>  [" in line and "Device" in line and ("usb" in line or "USB" in line or "Usb" in line):
+                lines.append(line[:-1]) if line[-1] == "\n" else lines.append(line)
+                toggle = True
+            elif ">>>  Section start" in line and toggle is True:
+                lines.append(line[:-1] + "\n") if line[-1] == "\n" else lines.append(line + "\n")
+                toggle = False
+
+    for line2 in lines:
+        print line2
+
 
 
 if __name__ == "__main__":
