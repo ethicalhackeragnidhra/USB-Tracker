@@ -1,7 +1,5 @@
 # USBTracker #
 
-*!!!! This is an alpha release currently in development !!!! A lot of features are not completely implemented or not implemented at all.*
-
 USBTracker is a quick & dirty coded incident response and forensics Python script to dump USB related information and artifacts from a Windows OS (vista and later). 
 
 ## Special recommandations ##
