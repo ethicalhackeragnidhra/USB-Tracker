@@ -24,7 +24,7 @@ If you want display help, just use the "-h" flag :
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -h
 USBTracker alpha
-2015 - Alain Sullam
+2015 - Sysinsider
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
 You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some
@@ -46,20 +46,20 @@ optional arguments:
                         only).
 ```
 
-## List know USB storage devices ##
+## List known USB storage devices ##
 
 If you want to list all USB storage devices known by Windows, use the "-u" flag to get a simple list :
 
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -u
 USBTracker alpha
-2015 - Alain Sullam
+2015 - Sysinsider
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
 You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some
 log files artifacts.
 
-USB device(s) know by this computer :
+USB device(s) known by this computer :
 =====================================
 
 CdRom&Ven_HL-DT-ST&Prod_DVDRAM_GP08NU20&Rev_1.00
@@ -76,13 +76,13 @@ or the "-uu" flag if you want to get a detailed list :
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -uu
 USBTracker alpha
-2015 - Alain Sullam
+2015 - Sysinsider
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
 You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some
 log files artifacts.
 
-USB device(s) know by this computer :
+USB device(s) known by this computer :
 =====================================
 
 CdRom&Ven_HL-DT-ST&Prod_DVDRAM_GP08NU20&Rev_1.00
@@ -137,7 +137,7 @@ To dump all USB related events (currently EventID 2003, 2004, 2005, 2010, 2100, 
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -df
 USBTracker alpha
-2015 - Alain Sullam
+2015 - Sysinsider
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
 You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some
@@ -169,7 +169,7 @@ To dump the same events in XML format, just add the "-x" flag :
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -df -x
 USBTracker alpha
-2015 - Alain Sullam
+2015 - Sysinsider
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
 You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some
@@ -213,7 +213,7 @@ To dump all USB devices installation events (generally first use of devices) fro
 ```
 PS C:\XXX\XXX\XXX\XXX> .\usbtracker.py -sa
 USBTracker alpha
-2015 - Alain Sullam
+2015 - Sysinsider
 
 USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and later).
 You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able to dump some log files artifacts.

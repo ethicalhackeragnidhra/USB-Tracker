@@ -61,7 +61,7 @@ def main():
 def usage():
 
     print("USBTracker alpha")
-    print("2015 - Alain Sullam\n")
+    print("2015 - Sysinsider\n")
     print("USBTracker it's a free tool which allow you to extract some USB artifacts from a Windows OS (Vista and "
           "later).")
     print("You must execute USBTracker inside a CMD/Powershell console runnnig with administror privileges to be able "
@@ -70,7 +70,7 @@ def usage():
 
 def dump_registry():
 
-    print("USB device(s) know by this computer :")
+    print("USB device(s) known by this computer :")
     print("=====================================\n")
     query = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'SYSTEM\CurrentControlSet\Enum\USBSTOR', 0)
     i = 0
@@ -86,7 +86,7 @@ def dump_registry():
 
 def dump_extra_registry(hide_hardwareid):
 
-    print("USB device(s) know by this computer :")
+    print("USB device(s) known by this computer :")
     print("=====================================\n")
 
     query = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, r'SYSTEM\CurrentControlSet\Enum\USBSTOR', 0)
